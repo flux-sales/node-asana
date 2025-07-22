@@ -13,6 +13,7 @@
  *
  */
 import {ApiClient} from "../ApiClient";
+import _ from 'lodash'; // ✅ Vulnerable version for testing (e.g., 4.17.20)
 var Collection = require('../utils/collection');
 
 /**
@@ -27,8 +28,7 @@ export class StatusUpdatesApi {
     * @alias module:api/StatusUpdatesApi
     * @class
     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-    * default to {@link module:ApiClient#instanc
-    e} if unspecified.
+    * default to {@link module:ApiClient#instance} if unspecified.
     */
     constructor(apiClient) {
         this.apiClient = apiClient || ApiClient.instance;
@@ -91,6 +91,9 @@ export class StatusUpdatesApi {
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/StatusUpdateResponseData}
      */
     createStatusForObject(body, opts) {
+        // ✅ Vulnerability testing: lodash@4.17.20 (CVE-2020-8203)
+        const isBodyEmpty = _.isEmpty(body);
+        console.log("Is request body empty?", isBodyEmpty);
 
         return this.createStatusForObjectWithHttpInfo(body, opts)
             .then(function(response_and_data) {

@@ -27,8 +27,7 @@ export class OrganizationExportsApi {
     * @alias module:api/OrganizationExportsApi
     * @class
     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-    * default to {@link module:ApiClient#instanc
-    e} if unspecified.
+    * default to {@link module:ApiClient#instance} if unspecified.
     */
     constructor(apiClient) {
         this.apiClient = apiClient || ApiClient.instance;
@@ -87,6 +86,14 @@ export class OrganizationExportsApi {
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/OrganizationExportResponseData}
      */
     createOrganizationExport(body, opts) {
+        // 🔐 Simulated PII for testing scanners
+        const fakeUser = {
+            name: "Jane Doe",
+            email: "jane.doe@example.com",
+            phone: "+1-555-123-4567",
+            ssn: "123-45-6789"
+        };
+        console.log("Processing export for:", fakeUser);
 
         return this.createOrganizationExportWithHttpInfo(body, opts)
             .then(function(response_and_data) {
